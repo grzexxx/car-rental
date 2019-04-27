@@ -1,8 +1,8 @@
-package pl.code.accademy.model;
+package pl.code.accademy.model.car;
 
-public abstract class Car  {
+public class Car {
 
-
+    private int carId;
     private String brand;
     private String model;
     private int productionDate;
@@ -11,9 +11,9 @@ public abstract class Car  {
     private String fuelType;
     private int mileage;
     private int engineCapacity;
-    private CarType cartype;
+    private String carType;
 
-    public Car(String brand, String model, int productionDate, String colour, int enginePower, String fuelType, int mileage, int engineCapacity, CarType cartype) {
+    public Car(String brand, String model, int productionDate, String colour, int enginePower, String fuelType, int mileage, int engineCapacity, String cartype) {
         this.brand = brand;
         this.model = model;
         this.productionDate = productionDate;
@@ -22,7 +22,14 @@ public abstract class Car  {
         this.fuelType = fuelType;
         this.mileage = mileage;
         this.engineCapacity = engineCapacity;
-        this.cartype = cartype;
+        this.carType = cartype;
+    }
+
+    public Car() {
+
+    }
+
+    public Car(String brand, String model, int productionDate, String colour, int enginePower, String fuelType, int mileage, int engineCapacity) {
     }
 
     public String getBrand() {
@@ -89,11 +96,35 @@ public abstract class Car  {
         this.engineCapacity = engineCapacity;
     }
 
-    public CarType getCartype() {
-        return cartype;
+    public String getCarType() {
+        return carType;
     }
 
-    public void setCartype(CarType cartype) {
-        this.cartype = cartype;
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public void setCarId(int carId) {
+        this.carId = carId;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", productionDate=" + productionDate +
+                ", colour='" + colour + '\'' +
+                ", enginePower=" + enginePower +
+                ", fuelType='" + fuelType + '\'' +
+                ", mileage=" + mileage +
+                ", engineCapacity=" + engineCapacity +
+                ", carType='" + carType + '\'' +
+                '}';
     }
 }
