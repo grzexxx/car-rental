@@ -1,7 +1,6 @@
 package pl.code.accademy.database;
 
 import pl.code.accademy.model.car.Car;
-import pl.code.accademy.model.car.Civil;
 import pl.code.accademy.model.reservation.Reservation;
 import pl.code.accademy.model.users.User;
 
@@ -88,6 +87,7 @@ public class UserRepository {
         }
     }
 
+
     public static void addCarToDB(Car car) {
         String sql = "INSERT INTO tcar(brand, model, production_date, colour, engine_power, fuel_type, mileage, engine_capacity, type) VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -132,6 +132,32 @@ public class UserRepository {
             return true;
         }
 
+    }
+
+    public static List<Reservation> getAllReservations() {
+        List<Reservation> reservationsList = new ArrayList<>();
+        String sql = "SELECT * FROM treservations";
+
+        try {
+
+
+            PreparedStatement ps = UserRepository.connection.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery();
+
+            while (resultSet.next()) {
+                Reservation reservation = new Reservation();
+                reservation.setUserId(resultSet.getInt("user_id"));
+                reservation.setDate(resultSet.getString("date"));
+                reservation.setLogin(resultSet.getString("login"));
+                reservation.setCarId(resultSet.getInt("car_id"));
+                reservation.setBookId(resultSet.getInt("book_id"));
+
+                reservationsList.add(reservation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reservationsList;
     }
 
     public static List<Car> getAllCars() {
@@ -186,13 +212,40 @@ public class UserRepository {
         return 0;
     }
 
+    public static boolean isCarNotAvailable(int carId, String dateToCheck) {
+        String sql = "SELECT * FROM treservations WHERE car_id = ?";
+        try {
+            PreparedStatement ps = UserRepository.connection.prepareStatement(sql);
+            ps.setInt(1, carId);
+
+            ResultSet resultSet = ps.executeQuery();
+            System.out.println(dateToCheck);
+
+            if (resultSet.next()) {
+                String dateFromDB = resultSet.getString("date");
+                System.out.println(dateFromDB);
+                if (dateToCheck.equals(dateFromDB)) {
+                    System.out.println("car is booked");
+                    return false;
+                }
+            }
+            System.out.println("car is not booked");
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("car");
+        return false;
+    }
+
+
     public static String authenticateUserAndCheckStatus(User user) {
 
         String sql = "SELECT * FROM tuser WHERE login = ?";
         try {
             PreparedStatement preparedStatement = UserRepository.connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getLogin());
-
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

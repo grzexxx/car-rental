@@ -47,4 +47,15 @@ public class Reservation {
     public void setCarId(int carId) {
         this.carId = carId;
     }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "bookId=" + bookId +
+                ", login='" + login + '\'' +
+                ", date='" + date + '\'' +
+                ", userId=" + userId +
+                ", carId=" + carId +
+                '}';
+    }
 }

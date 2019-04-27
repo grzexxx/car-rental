@@ -5,10 +5,10 @@ import pl.code.accademy.engine.AppEngine;
 import pl.code.accademy.model.car.Car;
 import pl.code.accademy.model.users.User;
 
-import java.util.List;
+
 import java.util.Scanner;
 
-import static org.apache.commons.lang3.StringUtils.capitalize;
+
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
 public class GUI {
@@ -69,46 +69,55 @@ public class GUI {
                 case 2:
                     User userToCheck = login();
                     String isInDatabaseAndStatus = UserRepository.authenticateUserAndCheckStatus(userToCheck);
+
+
                     if (isInDatabaseAndStatus.equals("admin")) {
-                        System.out.println("You are Admin, what do you want to do now");
+                        boolean logout = false;
+                        while (!logout) {
+                            System.out.println("You are Admin, what do you want to do now");
+                            int adminChoice = AdminGUI.adminMenu();
 
-                        int adminChoice = AdminGUI.adminMenu();
+                            switch (adminChoice) {
 
-                        switch (adminChoice) {
-
-                            case 1:
-                                Car car = AdminGUI.addNewCar();
-                                UserRepository.addCarToDB(car);
-                                System.out.println("added");
-                                break;
-
-                            case 2:
-                                AppEngine.carInStockPrint();
-                                break;
-                            case 3:
-                                AppEngine.usersInDBPrint();
-                                break;
-
-
+                                case 1:
+                                    Car car = AdminGUI.addNewCar();
+                                    UserRepository.addCarToDB(car);
+                                    System.out.println("added");
+                                    break;
+                                case 2:
+                                    AppEngine.carInStockPrint();
+                                    break;
+                                case 3:
+                                    AppEngine.usersInDBPrint();
+                                    break;
+                                case 4:
+                                    AppEngine.reservationsFromBDPrint();
+                                    break;
+                                case 5:
+                                    logout = true;
+                            }
                         }
 
 
                     } else if (isInDatabaseAndStatus.equals("user")) {
-                        System.out.println("You are User, what do you want do to now: ");
-                        int userChoice = UserGUI.userMenu();
-                        switch (userChoice) {
-                            case 1:
-                                AppEngine.carInStockPrint();
+                        boolean logout = false;
+                        while (!logout) {
+                            System.out.println("You are User, what do you want do to now: ");
+                            int userChoice = UserGUI.userMenu();
+                            switch (userChoice) {
+                                case 1:
+                                    AppEngine.carInStockPrint();
 
-                                break;
+                                    break;
 
-                            case 2:
-                                UserRepository.addReservation(UserGUI.reservation());
-                                break;
+                                case 2:
+                                    UserRepository.addReservation(UserGUI.reservation());
+                                    break;
 
-                            case 3:
-                                return;
+                                case 3:
+                                    logout = true;
 
+                            }
                         }
 
                     } else {

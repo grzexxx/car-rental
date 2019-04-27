@@ -8,7 +8,6 @@ import pl.code.accademy.model.users.User;
 import java.util.Scanner;
 
 import static org.apache.commons.lang3.StringUtils.isNumeric;
-import static org.apache.commons.lang3.StringUtils.strip;
 
 public class UserGUI {
 
@@ -54,6 +53,8 @@ public class UserGUI {
     }
 
     public static Reservation reservation() {
+
+        String dateString = "";
         while (true) {
             System.out.println("Enter car id: ");
             String carID = scanner.nextLine();
@@ -74,18 +75,26 @@ public class UserGUI {
             user.setLogin(login);
 
             if (isNumeric(carID) && isNumeric(year) && isNumeric(month) && isNumeric(day) && UserRepository.checkExistUser(user)) {
-                String dateString = AppEngine.dateToString(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+                dateString = AppEngine.dateToString(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-                Reservation reservation = new Reservation();
-                reservation.setCarId(Integer.parseInt(carID));
-                reservation.setLogin(login);
-                reservation.setDate(dateString);
-                reservation.setUserId(UserRepository.getUserId(login));
+                if (UserRepository.isCarNotAvailable(Integer.parseInt(carID), dateString)) {
+                    Reservation reservation = new Reservation();
+                    reservation.setCarId(Integer.parseInt(carID));
+                    reservation.setLogin(login);
+                    reservation.setDate(dateString);
+                    reservation.setUserId(UserRepository.getUserId(login));
 
-                return reservation;
+                    return reservation;
+                } else {
+                    System.out.println("Pick other car, car is not available at: " + dateString);
+                }
+
+
             } else {
+
                 System.out.println("Add correct data");
             }
+
         }
     }
 
@@ -93,7 +102,7 @@ public class UserGUI {
         while (true) {
             System.out.println("1. See available vehicles");
             System.out.println("2. Book your car by car id");
-            System.out.println("3. End application");
+            System.out.println("3. Log out");
 
             String choiceString = scanner.nextLine();
 

@@ -1,13 +1,10 @@
 package pl.code.accademy.gui;
 
-import pl.code.accademy.database.UserRepository;
 import pl.code.accademy.model.car.Car;
 import pl.code.accademy.model.car.Civil;
 import pl.code.accademy.model.car.Delivery;
 import pl.code.accademy.model.car.OffRoad;
-import pl.code.accademy.model.users.User;
 
-import java.util.List;
 import java.util.Scanner;
 
 import static org.apache.commons.lang3.StringUtils.isNumeric;
@@ -23,7 +20,7 @@ public class AdminGUI {
             System.out.println("2. Show cars.");
             System.out.println("3. Show users.");
             System.out.println("4. Show bookings");
-            System.out.println("5. Exit.");
+            System.out.println("5. Log out");
 
             String choiceString = scanner.nextLine();
 
@@ -94,15 +91,15 @@ public class AdminGUI {
         }
     }
 
-    public static void userList(){
-    //List<User> userFromDB = UserRepository.gerAllUser();
+    public static void userList() {
+        //List<User> userFromDB = UserRepository.gerAllUser();
     }
 
-    public static void carList(){
+    public static void carList() {
         //todo
     }
 
-    public static void getBookings(){
+    public static void getBookings() {
         //todo
     }
 }

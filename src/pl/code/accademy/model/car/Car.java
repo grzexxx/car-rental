@@ -26,11 +26,8 @@ public class Car {
     }
 
     public Car() {
-
     }
 
-    public Car(String brand, String model, int productionDate, String colour, int enginePower, String fuelType, int mileage, int engineCapacity) {
-    }
 
     public String getBrand() {
         return brand;
